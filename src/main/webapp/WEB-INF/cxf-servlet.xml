@@ -9,7 +9,20 @@
 		<jaxws:serviceBean>
 			<bean class="com.wsproducer.service.SumImpl" />
 		</jaxws:serviceBean>
+		<jaxws:inInterceptors>
+		<bean class="org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor">
+			<constructor-arg>
+				<map>
+					<entry key="action" value="UsernameToken"/>
+					<entry key="passwordType" value="PasswordText"/>
+					<entry key="passwordCallbackRef" value-ref="producerPasswordCallback"/>
+				</map>
+			</constructor-arg>
+		</bean>
+		</jaxws:inInterceptors>
 	</jaxws:server>
+
+<bean id="producerPasswordCallback" class="com.wsproducer.handler.ProducerPasswordCallback"/>
 
 	<cxf:bus>
 		<cxf:features>
