@@ -10,23 +10,36 @@
 			<bean class="com.wsproducer.service.SumImpl" />
 		</jaxws:serviceBean>
 		<jaxws:inInterceptors>
-		<bean class="org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor">
-			<constructor-arg>
-				<map>
-					<entry key="action" value="UsernameToken"/>
-					<entry key="passwordType" value="PasswordText"/>
-					<entry key="passwordCallbackRef" value-ref="producerPasswordCallback"/>
-				</map>
-			</constructor-arg>
-		</bean>
+			<bean class="org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor">
+				<constructor-arg>
+					<map>
+						<entry key="action" value="UsernameToken Encrypt" />
+						<entry key="passwordType" value="PasswordText" />
+						<entry key="passwordCallbackRef" value-ref="producerPasswordCallback" />
+						<entry key="decryptionPropFile" value="props/producerKeystore.properties" />
+					</map>
+				</constructor-arg>
+			</bean>
 		</jaxws:inInterceptors>
+		<jaxws:outInterceptors>
+			<bean class="org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor">
+				<constructor-arg>
+					<map>
+						<entry key="action" value="Encrypt" />
+						<entry key="passwordCallbackRef" value-ref="producerPasswordCallback" />
+						<entry key="encryptionPropFile" value="props/producerKeystore.properties" />
+						<entry key="encryptionUser" value="wsconsumerkey" />
+					</map>
+				</constructor-arg>
+			</bean>
+		</jaxws:outInterceptors>
 	</jaxws:server>
 
-<bean id="producerPasswordCallback" class="com.wsproducer.handler.ProducerPasswordCallback"/>
+	<bean id="producerPasswordCallback" class="com.wsproducer.handler.ProducerPasswordCallback" />
 
 	<cxf:bus>
 		<cxf:features>
-			<cxf:logging/>
+			<cxf:logging />
 		</cxf:features>
 	</cxf:bus>
 </beans>

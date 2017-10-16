@@ -16,6 +16,7 @@ public class ProducerPasswordCallback implements CallbackHandler {
 
 	public ProducerPasswordCallback() {
 		credentials.put("admin", "password");
+		credentials.put("wsproducerkey", "skpass");
 	}
 
 	@Override
