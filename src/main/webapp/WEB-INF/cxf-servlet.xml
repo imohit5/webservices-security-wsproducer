@@ -13,10 +13,11 @@
 			<bean class="org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor">
 				<constructor-arg>
 					<map>
-						<entry key="action" value="UsernameToken Encrypt" />
+						<entry key="action" value="UsernameToken Encrypt Signature Timestamp" />
 						<entry key="passwordType" value="PasswordText" />
 						<entry key="passwordCallbackRef" value-ref="producerPasswordCallback" />
 						<entry key="decryptionPropFile" value="props/producerKeystore.properties" />
+						<entry key="signaturePropFile" value="props/producerKeystore.properties" />
 					</map>
 				</constructor-arg>
 			</bean>
@@ -25,10 +26,16 @@
 			<bean class="org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor">
 				<constructor-arg>
 					<map>
-						<entry key="action" value="Encrypt" />
+						<entry key="action" value="Timestamp Signature Encrypt" />
 						<entry key="passwordCallbackRef" value-ref="producerPasswordCallback" />
 						<entry key="encryptionPropFile" value="props/producerKeystore.properties" />
 						<entry key="encryptionUser" value="wsconsumerkey" />
+						<entry key="encryptionParts"
+							value="{Element}{http://www.w3.org/2000/09/xmldsig#}Signature;{Content}{http://schemas.xmlsoap.org/soap/envelope/}Body" />
+						<entry key="signaturePropFile" value="props/producerKeystore.properties" />
+						<entry key="signatureUser" value="wsproducerkey" />
+						<entry key="signatureParts"
+							value="{Element}{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Timestamp;{Element}{http://schemas.xmlsoap.org/soap/envelope/}Body" />
 					</map>
 				</constructor-arg>
 			</bean>
